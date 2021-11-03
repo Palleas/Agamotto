@@ -1,14 +1,14 @@
 import Foundation
 
-struct Dependency: Decodable {
-    let name: String
-    let url: String
-    let version: String
+public struct Dependency: Decodable {
+    public let name: String
+    public let url: URL
+    public let version: String
 }
 
-func parsePackage(path: String) throws -> [Dependency] {
+public func parsePackage(path: String) throws -> [Dependency] {
     let magicCommand = """
-swift package dump-package --package-path \(path) | jq -Mc "[ .dependencies[].scm[0] | {name: .identity, url: .location, version: .requirement.exact[0]] }"
+swift package dump-package --package-path \(path) | jq -Mc "[ .dependencies[].scm[0] | { name: .identity, url: .location, version: .requirement.exact[0] }]"
 """
     let output = Pipe()
 
