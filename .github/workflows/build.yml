@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: fwal/setup-swift@v1.8.0
       with:
-        swift-version: 5.5.0
+        swift-version: "5.5"
     - uses: actions/checkout@v2
     - name: Build
       id: build-bin
