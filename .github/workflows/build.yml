@@ -1,4 +1,4 @@
-name: Swift
+name: Build Agamotto
 
 on:
   push:
@@ -6,8 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    container: swift:5.5.0-bionic
     steps:
     - uses: actions/checkout@v2
     - name: Build
