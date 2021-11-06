@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-    - uses: fwal/setup-swift@v1.8.0
+    - uses: fwal/setup-swift@main
       with:
         swift-version: "5.5"
     - uses: actions/checkout@v2
