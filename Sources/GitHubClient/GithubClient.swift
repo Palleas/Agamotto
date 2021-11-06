@@ -26,8 +26,10 @@ public struct GithubClient {
 
     func send<T: Decodable>(request: Request<T>) async throws -> (T, HTTPURLResponse) {
         let urlRequest = URLRequest(url: baseEndpoint.appendingPathComponent(request.path))
-        let (data, response) = try await URLSession.shared.data(for: urlRequest, delegate: nil)
-
+        let boop = try await URLSession.shared.data(for: urlRequest, delegate: nil)
+        let data = boop.0
+        let response = boop.1
+        
         let httpResponse = response as! HTTPURLResponse
         guard httpResponse.statusCode >= 200 && httpResponse.statusCode < 400 else {
             throw GitHubError.invalidResponse
