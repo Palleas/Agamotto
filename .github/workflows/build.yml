@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: swift:5.5.0-bionic
+    container: swift:5.5.1-bionic
     steps:
     - uses: actions/checkout@v2
     - name: Build
