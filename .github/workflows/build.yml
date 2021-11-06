@@ -6,13 +6,13 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container: swift:5.5.1-bionic
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
     - name: Build
       id: build-bin
       run: |
+        swift --version
         swift build --product agamotto -c release
         echo "::set-output name=path-to-bin::$(swift build --show-bin-path -c release)/agamotto"
     
