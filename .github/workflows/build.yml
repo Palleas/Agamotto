@@ -1,0 +1,23 @@
+name: Swift
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      id: build-bin
+      run: |
+        swift build --product agamotto -c release
+        echo "::set-output name=path-to-bin::$(swift build --show-bin-path -c release)/agamotto"
+    
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: agamotto
+        path: $(steps.build-bin.outputs.path-to-bin)
