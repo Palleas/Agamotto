@@ -5,6 +5,9 @@ import PackageDescription
 let package = Package(
     name: "Agamotto",
     platforms: [.macOS(.v12)],
+    products: [
+        .executable(name: "agamotto", targets: ["Run"])
+    ],
     dependencies: [],
     targets: [
         .target(name: "GitHubClient"),
