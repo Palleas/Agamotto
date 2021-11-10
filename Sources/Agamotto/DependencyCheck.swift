@@ -6,6 +6,7 @@ public enum DependencyErrorType: Error {
     case scmAPIError(Error)
 }
 public enum DependencyCheckResult {
+    case unknown
     case upToDate
     case outdated(currentVersion: String, latestVersion: String)
     case error(type: DependencyErrorType)
@@ -19,7 +20,9 @@ public func checkDependency(dependency: Dependency) async throws -> DependencyCh
     }
 
     do {
-        let latestRelease = try await client.getLatestRelease(repo: dependency.cloneURL.repoName)
+        guard let latestRelease = try await client.getLatestRelease(repo: dependency.cloneURL.repoName) else {
+            return .unknown
+        }
 
         if latestRelease.tagName != dependency.version {
             return .outdated(currentVersion: dependency.version, latestVersion: latestRelease.tagName)
@@ -49,6 +52,8 @@ public func checkDependencies(packagePath: String) async throws {
 
     for (dep, status) in statuses {
         switch status {
+        case .unknown:
+            print("[\(dep.name)] Unable to determine the latest release for this dependency")
         case .upToDate:
             print("[\(dep.name)] Dependency is up to date")
         case .outdated(currentVersion: let currentVersion, latestVersion: let latestVersion):
