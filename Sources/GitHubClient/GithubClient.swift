@@ -7,6 +7,7 @@ public struct GithubClient {
 
     enum GitHubError: Error {
         case invalidResponse
+        case httpError(response: HTTPURLResponse)
     }
 
     static let githubJsonDecoder: JSONDecoder = {
@@ -19,23 +20,44 @@ public struct GithubClient {
 
     public init() {}
 
-    public func getLatestRelease(repo: RepoName) async throws -> GithubRelease {
-        let (release, _) = try await send(request: repo.latestRelease)
-        return release
+    public func getLatestRelease(repo: RepoName) async throws -> GithubRelease? {
+        do {
+            let (release, _) = try await send(request: repo.latestRelease)
+            return release
+        } catch let error as GitHubError {
+            switch error {
+            case .httpError(response: let response) where response.statusCode == 404:
+                return nil
+            default:
+                throw error
+            }
+        }
     }
 
     func send<T: Decodable>(request: Request<T>) async throws -> (T, HTTPURLResponse) {
         let urlRequest = URLRequest(url: baseEndpoint.appendingPathComponent(request.path))
-        let boop = try await URLSession.shared.data(for: urlRequest, delegate: nil)
-        let data = boop.0
-        let response = boop.1
-        
-        let httpResponse = response as! HTTPURLResponse
-        guard httpResponse.statusCode >= 200 && httpResponse.statusCode < 400 else {
-            throw GitHubError.invalidResponse
-        }
 
-        let payload = try GithubClient.githubJsonDecoder.decode(T.self, from: data)
-        return (payload, httpResponse)
+        return try await withCheckedThrowingContinuation { continuation in
+            URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+                do {
+                    if let error = error {
+                        throw error
+                    }
+                    guard let data = data, let response = response as? HTTPURLResponse else {
+                        throw GitHubError.invalidResponse
+                    }
+
+                    guard response.statusCode >= 200 && response.statusCode < 400 else {
+                        throw GitHubError.httpError(response: response)
+                    }
+
+                    let payload = try GithubClient.githubJsonDecoder.decode(T.self, from: data)
+
+                    continuation.resume(returning: (payload, response))
+                } catch let error {
+                    continuation.resume(throwing: error)
+                }
+            }.resume()
+        }
     }
 }
