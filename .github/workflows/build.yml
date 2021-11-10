@@ -6,11 +6,9 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
+    container: swift:5.5.0-bionic
     steps:
-    - uses: fwal/setup-swift@8d5e65bb2c007c360e1c89a1bb51856ffa8a1962
-      with:
-        swift-version: "5.5"
     - uses: actions/checkout@v2
     - name: Build
       id: build-bin
