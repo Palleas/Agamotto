@@ -8,17 +8,10 @@ struct CheckDependenciesCommand: ParsableCommand {
     @Argument(completion: .directory)
     private var packagePath: String
 
+    @Flag(name: .customLong("verbose"))
+    private var isVerbose: Bool = false
+
     func run() async throws {
-        print("Package: \(packagePath)")
-        try await checkDependencies(packagePath: packagePath)
+        try await checkDependencies(packagePath: packagePath, isVerbose: isVerbose)
     }
-//    static func main() async throws {
-//        guard let path = ProcessInfo.processInfo.arguments.dropFirst().first else {
-//            print("Missing path to folder containing Package.swift")
-////            exit(1)
-//            return
-//        }
-//
-//        try await checkDependencies(packagePath: path)
-//    }
 }

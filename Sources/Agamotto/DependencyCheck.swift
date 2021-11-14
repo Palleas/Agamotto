@@ -41,7 +41,7 @@ public func checkDependency(dependency: Dependency) async throws -> DependencyCh
     }
 }
 
-public func checkDependencies(packagePath: String) async throws {
+public func checkDependencies(packagePath: String, isVerbose: Bool) async throws {
     let deps = try parsePackage(path: packagePath)
 
     guard !deps.isEmpty else {
@@ -65,7 +65,7 @@ public func checkDependencies(packagePath: String) async throws {
     if statuses.allSatisfy(\.1.isUpToDate) {
         print("All your dependencies are up to date!")
     } else {
-        for (dep, status) in statuses {
+        for (dep, status) in statuses where !status.isUpToDate || isVerbose {
             switch status {
             case .unknown:
                 print("[\(dep.name)] Unable to determine the latest release for this dependency")
