@@ -8,10 +8,15 @@ let package = Package(
     products: [
         .executable(name: "agamotto", targets: ["Run"])
     ],
-    dependencies: [],
+    dependencies: [
+        .package(name: "swift-argument-parser", url: "https://github.com/apple/swift-argument-parser.git", .branch("async")),
+    ],
     targets: [
         .target(name: "GitHubClient"),
         .target(name: "Agamotto", dependencies: [.byName(name: "GitHubClient")]),
-        .executableTarget(name: "Run", dependencies: [.byName(name: "Agamotto")])
+        .executableTarget(name: "Run", dependencies: [
+            .byName(name: "Agamotto"),
+            .product(name: "ArgumentParser", package: "swift-argument-parser"),
+        ])
     ]
 )
