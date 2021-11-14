@@ -10,6 +10,13 @@ public enum DependencyCheckResult {
     case upToDate
     case outdated(currentVersion: String, latestVersion: String)
     case error(type: DependencyErrorType)
+
+    var isUpToDate: Bool {
+        switch self {
+        case .upToDate: return true
+        default: return false
+        }
+    }
 }
 
 let client = GithubClient()
@@ -37,6 +44,11 @@ public func checkDependency(dependency: Dependency) async throws -> DependencyCh
 public func checkDependencies(packagePath: String) async throws {
     let deps = try parsePackage(path: packagePath)
 
+    guard !deps.isEmpty else {
+        print("This project does not have any dependencies.")
+        return
+    }
+
     let statuses = try await withThrowingTaskGroup(of: (Dependency, DependencyCheckResult).self, returning: [(Dependency, DependencyCheckResult)].self) { group in
         var statuses = [(Dependency, DependencyCheckResult)]()
         statuses.reserveCapacity(deps.count)
@@ -50,16 +62,20 @@ public func checkDependencies(packagePath: String) async throws {
         return try await group.reduce(into: statuses) { $0.append($1) }
     }
 
-    for (dep, status) in statuses {
-        switch status {
-        case .unknown:
-            print("[\(dep.name)] Unable to determine the latest release for this dependency")
-        case .upToDate:
-            print("[\(dep.name)] Dependency is up to date")
-        case .outdated(currentVersion: let currentVersion, latestVersion: let latestVersion):
-            print("[\(dep.name)] Dependency should be updated from \(currentVersion) to \(latestVersion)")
-        case .error(type: let type):
-            print("[\(dep.name)] There was an error checking for that dependency: \(type)")
+    if statuses.allSatisfy(\.1.isUpToDate) {
+        print("All your dependencies are up to date!")
+    } else {
+        for (dep, status) in statuses {
+            switch status {
+            case .unknown:
+                print("[\(dep.name)] Unable to determine the latest release for this dependency")
+            case .upToDate:
+                print("[\(dep.name)] Dependency is up to date")
+            case .outdated(currentVersion: let currentVersion, latestVersion: let latestVersion):
+                print("[\(dep.name)] Dependency should be updated from \(currentVersion) to \(latestVersion)")
+            case .error(type: let type):
+                print("[\(dep.name)] There was an error checking for that dependency: \(type)")
+            }
         }
     }
 }
