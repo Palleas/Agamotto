@@ -55,7 +55,7 @@ enum PackageParsingError: Error {
 
 public func parsePackage(path: String) throws -> [Dependency] {
     let magicCommand = """
-swift package dump-package --package-path \(path) | jq -Mc "[ .dependencies[].scm[0] | { name: .identity, cloneURL: .location, version: .requirement.exact[0] }]"
+swift package dump-package --package-path \(path) | jq -Mc "[ .dependencies[].sourceControl[0] | { name: .identity, cloneURL: .location.remote[0], version: .requirement.exact[0] }]"
 """
     let output = Pipe()
     let error = Pipe()
