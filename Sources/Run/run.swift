@@ -3,7 +3,7 @@ import Foundation
 import ArgumentParser
 
 @main
-struct CheckDependenciesCommand: ParsableCommand {
+struct CheckDependenciesCommand: AsyncParsableCommand {
 
     @Argument(completion: .directory)
     private var packagePath: String

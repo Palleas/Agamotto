@@ -9,7 +9,7 @@ let package = Package(
         .executable(name: "agamotto", targets: ["Run"])
     ],
     dependencies: [
-        .package(name: "swift-argument-parser", url: "https://github.com/apple/swift-argument-parser.git", .branch("async")),
+        .package(name: "swift-argument-parser", url: "https://github.com/apple/swift-argument-parser.git", .exact("1.1.2")),
     ],
     targets: [
         .target(name: "GitHubClient"),
