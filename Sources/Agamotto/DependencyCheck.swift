@@ -3,6 +3,7 @@ import GitHubClient
 
 public enum DependencyErrorType: Error {
     case unsupportedScm
+    case invalidVersionSpecification
     case scmAPIError(Error)
 }
 public enum DependencyCheckResult {
@@ -22,6 +23,9 @@ public enum DependencyCheckResult {
 let client = GithubClient()
 
 public func checkDependency(dependency: Dependency) async throws -> DependencyCheckResult {
+    guard let version = dependency.version else {
+        return .error(type: .invalidVersionSpecification)
+    }
     guard try dependency.cloneURL.host == "github.com" else {
         return .error(type: .unsupportedScm)
     }
@@ -31,8 +35,8 @@ public func checkDependency(dependency: Dependency) async throws -> DependencyCh
             return .unknown
         }
 
-        if latestRelease.tagName != dependency.version {
-            return .outdated(currentVersion: dependency.version, latestVersion: latestRelease.tagName)
+        if latestRelease.tagName != version {
+            return .outdated(currentVersion: version, latestVersion: latestRelease.tagName)
         } else {
             return .upToDate
         }
