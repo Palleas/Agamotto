@@ -22,7 +22,11 @@ let package = Package(
         // Core
         .target(
             name: "Core",
-            dependencies: ["GitHubClient", "SwiftPackageManager"]
+            dependencies: [
+                "GitHubClient", 
+                "SwiftPackageManager",
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ]
         ),
         .testTarget(name: "CoreTests", dependencies: ["Core", "SwiftPackageManager"]),
         
