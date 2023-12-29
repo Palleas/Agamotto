@@ -1,4 +1,5 @@
 import Foundation
+import SwiftPackageManager
 
 public struct DependencyChecker {
     
@@ -28,12 +29,14 @@ public struct DependencyChecker {
             return .error(type: .invalidVersionSpecification)
         }
         
-        guard try dependency.cloneURL.host == "github.com" else {
+        guard let host = dependency.cloneURL.host else {
+            // TODO: better parsing of clone url with some kind of sealed class equivalent
+            // (ex: HTTPCloneUrl(host, path), SSH(...)
             return .error(type: .unsupportedScm)
         }
 
         do {
-            let fetcher = try versionFetcherFactory.versionFetching(for: dependency.cloneURL.host)
+            let fetcher = try versionFetcherFactory.versionFetching(for: host)
             guard let latestVersion = try await fetcher.fetchLatestVersion(for: dependency) else {
                 return .unknown
             }

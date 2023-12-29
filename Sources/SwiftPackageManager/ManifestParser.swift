@@ -1,5 +1,4 @@
 import Foundation
-import GitHubClient
 
 public struct Dependency: Decodable {
     public let name: String

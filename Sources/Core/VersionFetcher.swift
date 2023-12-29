@@ -1,4 +1,5 @@
 import Foundation
+import SwiftPackageManager
 
 public protocol VersionFetching {
     func fetchLatestVersion(for dependency: Dependency) async throws -> String?

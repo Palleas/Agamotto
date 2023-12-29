@@ -14,13 +14,17 @@ let package = Package(
     targets: [
         // TODO: use github-generated client
         .target(name: "GitHubClient"),
+        
+        // Swift Package Manager Stuff
+        .target(name: "SwiftPackageManager", resources: [.copy("dependency-filter.txt")]),
+        .testTarget(name: "SwiftPackageManagerTests", dependencies: ["SwiftPackageManager"]),
+        
+        // Core
         .target(
             name: "Core",
-            dependencies: [.byName(name: "GitHubClient")],
-            resources: [.copy("dependency-filter.txt")]
+            dependencies: ["GitHubClient", "SwiftPackageManager"]
         ),
-        
-        .testTarget(name: "CoreTests", dependencies: ["Core"]),
+        .testTarget(name: "CoreTests", dependencies: ["Core", "SwiftPackageManager"]),
         
         .executableTarget(name: "Run", dependencies: [
             .byName(name: "Core"),

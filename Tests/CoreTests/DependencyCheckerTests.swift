@@ -1,5 +1,6 @@
 import XCTest
 import Core
+import SwiftPackageManager
 
 private struct StaticGithubFetcher: VersionFetching {
     func fetchLatestVersion(for dependency: Dependency) async throws -> String? {
