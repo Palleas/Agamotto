@@ -2,15 +2,18 @@ import XCTest
 import Core
 import SwiftPackageManager
 
+private struct GenericError: Error {}
+
 private struct StaticGithubFetcher: VersionFetching {
     func fetchLatestVersion(for dependency: Dependency) async throws -> String? {
         switch dependency.cloneURL.value.absoluteString {
         case "https://github.com/vapor/vapor.git":
             return "1.1.2"
+        case "https://github.com/throwing/whatever.git":
+            throw GenericError()
         default:
             return nil
         }
-
     }
 }
 
@@ -45,6 +48,12 @@ final class DependencyCheckerTests: XCTestCase {
         let result = try await checker.check(dependency: .packageWithNoReleases)
         XCTAssertEqual(result, .unknown)
     }
+    
+    func testDependency_throwingPackage() async throws {
+        let result = try await checker.check(dependency: .throwingPackage)
+        XCTAssertEqual(result, .error(type: .checkingError))
+    }
+
 
 }
 
@@ -78,5 +87,12 @@ private extension Dependency {
         cloneURL: CloneUrl(url: URL(string: "https://github.com/palleas/whatever.git")!),
         version: "5.4.3"
     )
+    
+    static let throwingPackage = Dependency(
+        name: "my-package",
+        cloneURL: CloneUrl(url: URL(string: "https://github.com/throwing/whatever.git")!),
+        version: "5.4.3"
+    )
+
 
 }

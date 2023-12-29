@@ -19,7 +19,7 @@ struct GithubClientFetcher: VersionFetching {
 public func checkDependencies(packagePath: String, isVerbose: Bool) async throws {
     let checker = DependencyChecker(
         versionFetcherFactory: VersionFetcherFactory(
-            fetchers: [:]
+            fetchers: ["github.com": GithubClientFetcher()]
         )
     )
 
