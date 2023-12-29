@@ -2,7 +2,7 @@ import Foundation
 import SwiftPackageManager
 
 public struct DependencyChecker {
-    
+
     public enum DependencyCheckResult: Equatable {
         case unknown
         case upToDate
@@ -17,18 +17,18 @@ public struct DependencyChecker {
             }
         }
     }
-    
+
     private let versionFetcherFactory: VersionFetcherFactory
 
     public init(versionFetcherFactory: VersionFetcherFactory) {
         self.versionFetcherFactory = versionFetcherFactory
     }
-    
+
     public func check(dependency: Dependency) async throws -> DependencyCheckResult {
         guard let currentVersion = dependency.version else {
             return .error(type: .invalidVersionSpecification)
         }
-        
+
         guard let host = dependency.cloneURL.host else {
             // TODO: better parsing of clone url with some kind of sealed class equivalent
             // (ex: HTTPCloneUrl(host, path), SSH(...)
@@ -40,12 +40,12 @@ public struct DependencyChecker {
             guard let latestVersion = try await fetcher.fetchLatestVersion(for: dependency) else {
                 return .unknown
             }
-            
+
             // TODO: Compare version using semver when possible
             if latestVersion != currentVersion {
                 return .outdated(currentVersion: currentVersion, latestVersion: latestVersion)
             }
-            
+
             return .upToDate
         } catch is VersionFetcherFactory.Error {
             return .error(type: .unsupportedScm)

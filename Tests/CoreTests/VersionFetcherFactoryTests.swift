@@ -9,11 +9,11 @@ private struct GithubFetcher: VersionFetching, Equatable {
 }
 
 final class VersionFetcherFactoryTests: XCTestCase {
-    
+
     let factory = VersionFetcherFactory(fetchers: [
         "github.com": GithubFetcher()
     ])
-    
+
     func testProvidingFetcher_unsupportedHost() {
         XCTAssertThrowsError(try factory.versionFetching(for: "gitlab.com")) { error in
             guard let error = error as? VersionFetcherFactory.Error else {
@@ -29,7 +29,7 @@ final class VersionFetcherFactoryTests: XCTestCase {
             )
         }
     }
-    
+
     func testProvidingFetcher() throws {
         let fetcher = try factory.versionFetching(for: "github.com")
         XCTAssertTrue(fetcher is GithubFetcher)
