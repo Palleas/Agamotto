@@ -36,7 +36,6 @@ final class ManifestParserTests: XCTestCase {
                 Dependency(name: "fluent", cloneURL: CloneUrl(url: URL(string: "https://github.com/vapor/fluent.git")!), version: nil)
             ])
         } catch let error {
-            dump(error)
             throw error
         }
 
