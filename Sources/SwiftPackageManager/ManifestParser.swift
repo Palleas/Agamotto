@@ -1,26 +1,15 @@
 import Foundation
 
-struct CommandFailedError: Error {
-    let terminationStatus: Int
-    let output: String
-}
-
-struct RuntimeError: LocalizedError {
-    var errorDescription: String? { message }
-    
-    let message: String
-}
-
-enum PackageParsingError: Error {
-    case invalidPayload
+public struct RuntimeError: Error {
+    public let message: String
 }
 
 public struct ManifestParser {
     
-    let runner: CommandRunner
+    let runner: CommandRunning
     let cachesDirectory: URL
     
-    public init(runner: CommandRunner, cachesDirectory: URL) {
+    public init(runner: CommandRunning, cachesDirectory: URL) {
         self.runner = runner
         self.cachesDirectory = cachesDirectory
     }
@@ -45,19 +34,19 @@ swift package dump-package --package-path \(path) | tee \(spmDumpPackageOutput) 
         let dumpPackageCommandResult = try runner.run(command: magicCommand)
         
         guard dumpPackageCommandResult.isSuccess else {
-            throw CommandFailedError(
-                terminationStatus: dumpPackageCommandResult.terminationStatus,
-                output: try dumpPackageCommandResult.standardOutput().map({ String(decoding: $0, as: UTF8.self) }) ?? "No output"
+            // TODO: write a better error here
+            throw RuntimeError(
+                message: "An error occured: " + (try dumpPackageCommandResult.standardOutput().map({ String(decoding: $0, as: UTF8.self) }) ?? "No output")
             )
         }
         
         guard let data = try dumpPackageCommandResult.standardOutput() else {
-            throw PackageParsingError.invalidPayload
+            throw RuntimeError(message: "There was an error while analyzing the package")
         }
         
         do {
             return try JSONDecoder().decode([Dependency].self, from: data)
-        } catch is DecodingError {
+        } catch let error as DecodingError {
             let stderr = try dumpPackageCommandResult.standardError().map({ String(decoding: $0, as: UTF8.self) }) ?? "No output"
             throw RuntimeError(message: """
 Parsing manifest failed with the following error message:
@@ -68,7 +57,6 @@ This an happen when the response format of the `swift package dump-package` comm
 Command output is available at \(spmDumpPackageOutput)
 JQ result filter is available at \(jqFilterOutput)
 """)
-            
         }
     }
 }

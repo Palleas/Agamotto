@@ -1,6 +1,6 @@
 import Foundation
 
-public struct CloneUrl: Decodable {
+public struct CloneUrl: Decodable, Equatable {
     public let value: URL
     
     public init(from decoder: Decoder) throws {

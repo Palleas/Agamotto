@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Dependency: Decodable {
+public struct Dependency: Decodable, Equatable {
     public let name: String
     public let cloneURL: CloneUrl
     public let version: String?

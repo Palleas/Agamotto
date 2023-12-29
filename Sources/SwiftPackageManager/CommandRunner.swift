@@ -12,12 +12,22 @@ public struct CommandRunResult {
     let terminationStatus: Int
     
     var isSuccess: Bool { terminationStatus == 0 }
+    
+    public init(standardOutput: @escaping () throws -> Data?, standardError: @escaping () throws -> Data?, terminationStatus: Int) {
+        self.standardOutput = standardOutput
+        self.standardError = standardError
+        self.terminationStatus = terminationStatus
+    }
 }
 
-public struct CommandRunner {
+public protocol CommandRunning {
+    func run(command: String) throws -> CommandRunResult
+}
+
+public struct CommandRunner: CommandRunning {
     public init() {}
     
-    func run(command: String) throws -> CommandRunResult {
+    public func run(command: String) throws -> CommandRunResult {
         let output = Pipe()
         let standardError = Pipe()
         
