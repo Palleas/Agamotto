@@ -12,14 +12,18 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-argument-parser.git", exact: "1.1.2"),
     ],
     targets: [
+        // TODO: use github-generated client
         .target(name: "GitHubClient"),
         .target(
-            name: "Agamotto",
+            name: "Core",
             dependencies: [.byName(name: "GitHubClient")],
             resources: [.copy("dependency-filter.txt")]
         ),
+        
+        .testTarget(name: "CoreTests", dependencies: ["Core"]),
+        
         .executableTarget(name: "Run", dependencies: [
-            .byName(name: "Agamotto"),
+            .byName(name: "Core"),
             .product(name: "ArgumentParser", package: "swift-argument-parser"),
         ])
     ]

@@ -1,4 +1,4 @@
-import Agamotto
+import Core
 import Foundation
 import ArgumentParser
 
