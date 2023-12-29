@@ -22,7 +22,9 @@ public func checkDependencies(packagePath: String, isVerbose: Bool) async throws
             fetchers: [:]
         )
     )
-    let deps = try parsePackage(path: packagePath)
+    
+    let parser = ManifestParser(runner: CommandRunner(), cachesDirectory: .cachesDirectory)
+    let deps = try parser.parsePackage(path: packagePath)
 
     guard !deps.isEmpty else {
         print("This project does not have any dependencies.")
