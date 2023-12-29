@@ -46,7 +46,7 @@ swift package dump-package --package-path \(path) | tee \(spmDumpPackageOutput) 
 
         do {
             return try JSONDecoder().decode([Dependency].self, from: data)
-        } catch let error as DecodingError {
+        } catch is DecodingError {
             let stderr = try dumpPackageCommandResult.standardError().map({ String(decoding: $0, as: UTF8.self) }) ?? "No output"
             throw RuntimeError(message: """
 Parsing manifest failed with the following error message:
