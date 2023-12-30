@@ -13,7 +13,7 @@ extension CacheKind {
 private extension URL {
     func path(for kind: CacheKind) -> String {
         #if os(Linux)
-        appendingPathComponent(kind.filename)
+        appendingPathComponent(kind.filename).path
         #else
         appending(path: kind.filename).path()
         #endif

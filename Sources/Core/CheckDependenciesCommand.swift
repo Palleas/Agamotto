@@ -9,6 +9,14 @@ public enum DependencyErrorType: Error, Equatable {
     case checkingError
 }
 
+private func defaultCacheDirectory() -> URL {
+    #if os(Linux)
+    FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Caches", isDirectory: true)
+    #else
+    URL.cachesDirectory
+    #endif
+}
+
 public struct CheckDependenciesCommand: AsyncParsableCommand {
     
     public static let configuration: CommandConfiguration = .init(commandName: "check")
@@ -28,7 +36,7 @@ public struct CheckDependenciesCommand: AsyncParsableCommand {
             )
         )
 
-        let parser = ManifestParser(runner: CommandRunner(), cachesDirectory: .cachesDirectory)
+        let parser = ManifestParser(runner: CommandRunner(), cachesDirectory: defaultCacheDirectory())
         let deps = try parser.parsePackage(path: packagePath)
 
         guard !deps.isEmpty else {
