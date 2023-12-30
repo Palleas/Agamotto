@@ -12,5 +12,11 @@ public struct CloneUrl: Decodable, Equatable {
         self.value = url
     }
 
-    public var host: String? { value.host() }
+    public var host: String? {
+        #if os(Linux)
+        value.host
+        #else
+        value.host()
+        #endif
+    }
 }
