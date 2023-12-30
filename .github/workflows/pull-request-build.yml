@@ -16,6 +16,7 @@ jobs:
             - uses: swift-actions/setup-swift@v1
               with:
                 swift-version: ${{ matrix.swift-version }}
+            - uses: actions/checkout@v4
             - name: Run tests
               run: swift test
             
