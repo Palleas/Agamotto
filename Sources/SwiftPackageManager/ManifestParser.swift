@@ -1,5 +1,26 @@
 import Foundation
 
+struct CacheKind {
+    let filename: String
+}
+
+extension CacheKind {
+    static let swiftPackageDirectoryDump = CacheKind(filename: "dump.log")
+    
+    static let jqFilterResult = CacheKind(filename: "jq-filter.log")
+}
+
+private extension URL {
+    func path(for kind: CacheKind) -> String {
+        #if os(Linux)
+        appendingPathComponent(kind.filename)
+        #else
+        appending(path: kind.filename).path()
+        #endif
+    }
+}
+
+
 public struct RuntimeError: Error {
     public let message: String
 }
@@ -19,14 +40,10 @@ public struct ManifestParser {
             throw RuntimeError(message: "Unable to locate a file required to parse the output of the swift package registry command")
         }
 
-        let cacheUrl = cachesDirectory.appending(
-            path: "com.perfectly-cooked.agamotto/\(UUID().uuidString)",
-            directoryHint: .isDirectory
-        )
-        _ = try FileManager.default.createDirectory(at: cacheUrl, withIntermediateDirectories: true)
-
-        let spmDumpPackageOutput = cacheUrl.appending(path: "dump.log").path()
-        let jqFilterOutput = cacheUrl.appending(path: "jq-filter.log").path()
+        let cacheUrl = try createCacheEntry()
+        let spmDumpPackageOutput = cacheUrl.path(for: .swiftPackageDirectoryDump)
+        let jqFilterOutput = cacheUrl.path(for: .jqFilterResult)
+        
         let magicCommand = """
 swift package dump-package --package-path \(path) | tee \(spmDumpPackageOutput) | jq -Mc -f \(filterFilePath) | tee \(jqFilterOutput)
 """
@@ -58,5 +75,22 @@ Command output is available at \(spmDumpPackageOutput)
 JQ result filter is available at \(jqFilterOutput)
 """)
         }
+    }
+    
+    func createCacheEntry() throws -> URL {
+        #if os(Linux)
+        let cacheUrl = cachesDirectory.appendingPathComponent(
+            "com.perfectly-cooked.agamotto/\(UUID().uuidString)",
+            isDirectory: true
+        )
+        #else
+        let cacheUrl = cachesDirectory.appending(
+            path: "com.perfectly-cooked.agamotto/\(UUID().uuidString)",
+            directoryHint: .isDirectory
+        )
+        #endif
+        _ = try FileManager.default.createDirectory(at: cacheUrl, withIntermediateDirectories: true)
+        
+        return cacheUrl
     }
 }
