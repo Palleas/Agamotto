@@ -1,0 +1,21 @@
+name: Pull Request Build
+
+on:
+    pull_request: 
+        branches: [ main ]
+
+jobs:
+    run-tests:
+        name: Swift ${{ matrix.swift-version }} on ${{ matrix.os }}
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [ubuntu-latest, macos-latest]
+                swift-version: ["5.9", "5.10"]
+        steps:
+            - uses: swift-actions/setup-swift@v1
+              with:
+                swift-version: ${{ matrix.swift-version }}
+            - name: Run tests
+              run: swift test
+            
