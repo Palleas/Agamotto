@@ -20,13 +20,14 @@ jobs:
           swift build --product agamotto -c release
           echo "::set-output name=path-to-bin::$(swift build --show-bin-path -c release)/agamotto"
       
-      # - name: Upload a Build Artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: agamotto
-      #     path: ${{ steps.build-bin.outputs.path-to-bin }}
+      - name: Create archive
+        id: create-archive
+        run: |
+          tar -czf agamotto-${{ github.run_number }}.tar.gz ${{ steps.build-bin.outputs.path-to-bin }}
+          echo "::set-output name=path-to-archive::agamotto-${{ github.run_number }}.tar.gz"
+
       - name: Upload to S3
-        run: aws s3 sync ${{ steps.build-bin.outputs.path-to-bin }} s3://palleas/storage
+        run: aws s3 sync ${{ steps.create-archive.outputs.path-to-archive }} s3://palleas-storage/homebrew/
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
