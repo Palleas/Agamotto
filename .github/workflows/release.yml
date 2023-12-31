@@ -16,18 +16,14 @@ jobs:
       #   run: swift test
       - name: Build binary
         id: build-bin
-        run: |
-          swift build --product agamotto -c release
-          echo "::set-output name=path-to-bin::$(swift build --show-bin-path -c release)/agamotto"
+        run: swift build --product agamotto -c release
       
       - name: Create archive
         id: create-archive
-        run: |
-          tar -czf agamotto-${{ github.run_number }}.tar.gz ${{ steps.build-bin.outputs.path-to-bin }}
-          echo "::set-output name=path-to-archive::agamotto-${{ github.run_number }}.tar.gz"
+        run: tar -czf agamotto.tar.gz $(swift build --show-bin-path -c release)/agamotto
 
       - name: Upload to S3
-        run: aws s3 sync ${{ steps.create-archive.outputs.path-to-archive }} s3://palleas-storage/homebrew/
+        run: aws s3 cp agamotto.tar.gz s3://palleas-storage/homebrew/agamotto-${{ github.run_number }}.tar.gz
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
