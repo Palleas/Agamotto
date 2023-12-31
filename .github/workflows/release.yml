@@ -6,19 +6,30 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container: swift:5.5.0-bionic
+    runs-on: macos-13
     steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      id: build-bin
-      run: |
-        swift --version
-        swift build --product agamotto -c release
-        echo "::set-output name=path-to-bin::$(swift build --show-bin-path -c release)/agamotto"
-    
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: agamotto
-        path: ${{ steps.build-bin.outputs.path-to-bin }}
+      - uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: 5.9
+      - uses: actions/checkout@v4
+      - name: Run Tests
+        run: swift test
+      - name: Build binary
+        id: build-bin
+        run: |
+          swift build --product agamotto -c release
+          echo "::set-output name=path-to-bin::$(swift build --show-bin-path -c release)/agamotto"
+      
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: agamotto
+          path: ${{ steps.build-bin.outputs.path-to-bin }}
+
+      - uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: palleas-storage
+          source_dir: ${{ steps.build-bin.outputs.path-to-bin }}
+
