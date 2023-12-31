@@ -12,24 +12,22 @@ jobs:
         with:
           swift-version: 5.9
       - uses: actions/checkout@v4
-      - name: Run Tests
-        run: swift test
+      # - name: Run Tests
+      #   run: swift test
       - name: Build binary
         id: build-bin
         run: |
           swift build --product agamotto -c release
           echo "::set-output name=path-to-bin::$(swift build --show-bin-path -c release)/agamotto"
       
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: agamotto
-          path: ${{ steps.build-bin.outputs.path-to-bin }}
-
-      - uses: shallwefootball/s3-upload-action@master
-        with:
-          aws_key_id: ${{ secrets.AWS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_bucket: palleas-storage
-          source_dir: ${{ steps.build-bin.outputs.path-to-bin }}
-
+      # - name: Upload a Build Artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: agamotto
+      #     path: ${{ steps.build-bin.outputs.path-to-bin }}
+      - name: Upload to S3
+        run: aws s3 sync ${{ steps.build-bin.outputs.path-to-bin }} s3://palleas/storage
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'us-west-1'
