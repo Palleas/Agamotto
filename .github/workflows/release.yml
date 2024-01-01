@@ -12,8 +12,8 @@ jobs:
         with:
           swift-version: 5.9
       - uses: actions/checkout@v4
-      # - name: Run Tests
-      #   run: swift test
+      - name: Run Tests
+        run: swift test
       - name: Build binary
         id: build-bin
         run: swift build --product agamotto -c release
