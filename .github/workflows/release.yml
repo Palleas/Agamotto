@@ -2,7 +2,7 @@ name: Build Agamotto
 
 on:
   push:
-    branches: [ main, romain/test-upload-to-s3 ]
+    branches: [ main ]
 
 jobs:
   build:
