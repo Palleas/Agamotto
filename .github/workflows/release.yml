@@ -2,23 +2,40 @@ name: Build Agamotto
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+
+env:
+  $RELEASE_VERSION: 0.1.${{ github.run_number }}
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container: swift:5.5.0-bionic
+    runs-on: macos-13
     steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      id: build-bin
-      run: |
-        swift --version
-        swift build --product agamotto -c release
-        echo "::set-output name=path-to-bin::$(swift build --show-bin-path -c release)/agamotto"
-    
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: agamotto
-        path: ${{ steps.build-bin.outputs.path-to-bin }}
+      - uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: 5.9
+      - uses: actions/checkout@v4
+
+      - name: Run Tests
+        run: swift test
+
+      - name: Build binary
+        id: build-bin
+        run: swift build --product agamotto -c release
+      
+      - name: Create archive
+        id: create-archive
+        run: tar -czf agamotto.tar.gz $(swift build --show-bin-path -c release)/agamotto
+
+      - name: Upload to S3
+        run: aws s3 cp --acl public-read agamotto.tar.gz s3://palleas-storage/homebrew/agamotto-$RELEASE_VERSION.tar.gz
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'us-west-1'
+
+      - name: Create release
+        run: gh release create --generate-notes $RELEASE_VERSION agamotto.tar.gz
+        env:
+          GH_TOKEN: ${{ github.token }}
