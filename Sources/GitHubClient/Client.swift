@@ -11,7 +11,7 @@ import struct Foundation.Date
 #endif
 import HTTPTypes
 /// GitHub's v3 REST API.
-internal struct Client: APIProtocol {
+public struct Client: APIProtocol {
     /// The underlying HTTP client.
     private let client: UniversalClient
     /// Creates a new client.
@@ -22,7 +22,7 @@ internal struct Client: APIProtocol {
     ///   - configuration: A set of configuration values for the client.
     ///   - transport: A transport that performs HTTP operations.
     ///   - middlewares: A list of middlewares to call before the transport.
-    internal init(
+    public init(
         serverURL: Foundation.URL,
         configuration: Configuration = .init(),
         transport: any ClientTransport,
@@ -46,7 +46,7 @@ internal struct Client: APIProtocol {
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/releases/latest`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/releases/latest/get(repos/get-latest-release)`.
-    internal func repos_sol_get_hyphen_latest_hyphen_release(_ input: Operations.repos_sol_get_hyphen_latest_hyphen_release.Input) async throws -> Operations.repos_sol_get_hyphen_latest_hyphen_release.Output {
+    public func repos_sol_get_hyphen_latest_hyphen_release(_ input: Operations.repos_sol_get_hyphen_latest_hyphen_release.Input) async throws -> Operations.repos_sol_get_hyphen_latest_hyphen_release.Output {
         try await client.send(
             input: input,
             forOperation: Operations.repos_sol_get_hyphen_latest_hyphen_release.id,

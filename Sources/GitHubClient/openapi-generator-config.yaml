@@ -1,6 +1,7 @@
 generate:
   - types
   - client
+accessModifier: public  
 filter:
   operations:
     - repos/get-latest-release

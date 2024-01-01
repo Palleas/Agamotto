@@ -10,7 +10,7 @@ import struct Foundation.Data
 import struct Foundation.Date
 #endif
 /// A type that performs HTTP operations defined by the OpenAPI document.
-internal protocol APIProtocol: Sendable {
+public protocol APIProtocol: Sendable {
     /// Get the latest release
     ///
     /// View the latest published full release for the repository.
@@ -32,7 +32,7 @@ extension APIProtocol {
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/releases/latest`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/releases/latest/get(repos/get-latest-release)`.
-    internal func repos_sol_get_hyphen_latest_hyphen_release(
+    public func repos_sol_get_hyphen_latest_hyphen_release(
         path: Operations.repos_sol_get_hyphen_latest_hyphen_release.Input.Path,
         headers: Operations.repos_sol_get_hyphen_latest_hyphen_release.Input.Headers = .init()
     ) async throws -> Operations.repos_sol_get_hyphen_latest_hyphen_release.Output {
@@ -44,8 +44,8 @@ extension APIProtocol {
 }
 
 /// Server URLs defined in the OpenAPI document.
-internal enum Servers {
-    internal static func server1() throws -> Foundation.URL {
+public enum Servers {
+    public static func server1() throws -> Foundation.URL {
         try Foundation.URL(
             validatingOpenAPIServerURL: "https://api.github.com",
             variables: []
@@ -54,55 +54,55 @@ internal enum Servers {
 }
 
 /// Types generated from the components section of the OpenAPI document.
-internal enum Components {
+public enum Components {
     /// Types generated from the `#/components/schemas` section of the OpenAPI document.
-    internal enum Schemas {
+    public enum Schemas {
         /// A GitHub user.
         ///
         /// - Remark: Generated from `#/components/schemas/simple-user`.
-        internal struct simple_hyphen_user: Codable, Hashable, Sendable {
+        public struct simple_hyphen_user: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/simple-user/name`.
-            internal var name: Swift.String?
+            public var name: Swift.String?
             /// - Remark: Generated from `#/components/schemas/simple-user/email`.
-            internal var email: Swift.String?
+            public var email: Swift.String?
             /// - Remark: Generated from `#/components/schemas/simple-user/login`.
-            internal var login: Swift.String
+            public var login: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/id`.
-            internal var id: Swift.Int
+            public var id: Swift.Int
             /// - Remark: Generated from `#/components/schemas/simple-user/node_id`.
-            internal var node_id: Swift.String
+            public var node_id: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/avatar_url`.
-            internal var avatar_url: Swift.String
+            public var avatar_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/gravatar_id`.
-            internal var gravatar_id: Swift.String?
+            public var gravatar_id: Swift.String?
             /// - Remark: Generated from `#/components/schemas/simple-user/url`.
-            internal var url: Swift.String
+            public var url: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/html_url`.
-            internal var html_url: Swift.String
+            public var html_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/followers_url`.
-            internal var followers_url: Swift.String
+            public var followers_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/following_url`.
-            internal var following_url: Swift.String
+            public var following_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/gists_url`.
-            internal var gists_url: Swift.String
+            public var gists_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/starred_url`.
-            internal var starred_url: Swift.String
+            public var starred_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/subscriptions_url`.
-            internal var subscriptions_url: Swift.String
+            public var subscriptions_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/organizations_url`.
-            internal var organizations_url: Swift.String
+            public var organizations_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/repos_url`.
-            internal var repos_url: Swift.String
+            public var repos_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/events_url`.
-            internal var events_url: Swift.String
+            public var events_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/received_events_url`.
-            internal var received_events_url: Swift.String
+            public var received_events_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/type`.
-            internal var _type: Swift.String
+            public var _type: Swift.String
             /// - Remark: Generated from `#/components/schemas/simple-user/site_admin`.
-            internal var site_admin: Swift.Bool
+            public var site_admin: Swift.Bool
             /// - Remark: Generated from `#/components/schemas/simple-user/starred_at`.
-            internal var starred_at: Swift.String?
+            public var starred_at: Swift.String?
             /// Creates a new `simple_hyphen_user`.
             ///
             /// - Parameters:
@@ -127,7 +127,7 @@ internal enum Components {
             ///   - _type:
             ///   - site_admin:
             ///   - starred_at:
-            internal init(
+            public init(
                 name: Swift.String? = nil,
                 email: Swift.String? = nil,
                 login: Swift.String,
@@ -172,7 +172,7 @@ internal enum Components {
                 self.site_admin = site_admin
                 self.starred_at = starred_at
             }
-            internal enum CodingKeys: String, CodingKey {
+            public enum CodingKeys: String, CodingKey {
                 case name
                 case email
                 case login
@@ -199,49 +199,49 @@ internal enum Components {
         /// A GitHub user.
         ///
         /// - Remark: Generated from `#/components/schemas/nullable-simple-user`.
-        internal struct nullable_hyphen_simple_hyphen_user: Codable, Hashable, Sendable {
+        public struct nullable_hyphen_simple_hyphen_user: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/name`.
-            internal var name: Swift.String?
+            public var name: Swift.String?
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/email`.
-            internal var email: Swift.String?
+            public var email: Swift.String?
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/login`.
-            internal var login: Swift.String
+            public var login: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/id`.
-            internal var id: Swift.Int
+            public var id: Swift.Int
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/node_id`.
-            internal var node_id: Swift.String
+            public var node_id: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/avatar_url`.
-            internal var avatar_url: Swift.String
+            public var avatar_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/gravatar_id`.
-            internal var gravatar_id: Swift.String?
+            public var gravatar_id: Swift.String?
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/url`.
-            internal var url: Swift.String
+            public var url: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/html_url`.
-            internal var html_url: Swift.String
+            public var html_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/followers_url`.
-            internal var followers_url: Swift.String
+            public var followers_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/following_url`.
-            internal var following_url: Swift.String
+            public var following_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/gists_url`.
-            internal var gists_url: Swift.String
+            public var gists_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/starred_url`.
-            internal var starred_url: Swift.String
+            public var starred_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/subscriptions_url`.
-            internal var subscriptions_url: Swift.String
+            public var subscriptions_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/organizations_url`.
-            internal var organizations_url: Swift.String
+            public var organizations_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/repos_url`.
-            internal var repos_url: Swift.String
+            public var repos_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/events_url`.
-            internal var events_url: Swift.String
+            public var events_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/received_events_url`.
-            internal var received_events_url: Swift.String
+            public var received_events_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/type`.
-            internal var _type: Swift.String
+            public var _type: Swift.String
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/site_admin`.
-            internal var site_admin: Swift.Bool
+            public var site_admin: Swift.Bool
             /// - Remark: Generated from `#/components/schemas/nullable-simple-user/starred_at`.
-            internal var starred_at: Swift.String?
+            public var starred_at: Swift.String?
             /// Creates a new `nullable_hyphen_simple_hyphen_user`.
             ///
             /// - Parameters:
@@ -266,7 +266,7 @@ internal enum Components {
             ///   - _type:
             ///   - site_admin:
             ///   - starred_at:
-            internal init(
+            public init(
                 name: Swift.String? = nil,
                 email: Swift.String? = nil,
                 login: Swift.String,
@@ -311,7 +311,7 @@ internal enum Components {
                 self.site_admin = site_admin
                 self.starred_at = starred_at
             }
-            internal enum CodingKeys: String, CodingKey {
+            public enum CodingKeys: String, CodingKey {
                 case name
                 case email
                 case login
@@ -336,27 +336,27 @@ internal enum Components {
             }
         }
         /// - Remark: Generated from `#/components/schemas/reaction-rollup`.
-        internal struct reaction_hyphen_rollup: Codable, Hashable, Sendable {
+        public struct reaction_hyphen_rollup: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/reaction-rollup/url`.
-            internal var url: Swift.String
+            public var url: Swift.String
             /// - Remark: Generated from `#/components/schemas/reaction-rollup/total_count`.
-            internal var total_count: Swift.Int
+            public var total_count: Swift.Int
             /// - Remark: Generated from `#/components/schemas/reaction-rollup/+1`.
-            internal var _plus_1: Swift.Int
+            public var _plus_1: Swift.Int
             /// - Remark: Generated from `#/components/schemas/reaction-rollup/-1`.
-            internal var _hyphen_1: Swift.Int
+            public var _hyphen_1: Swift.Int
             /// - Remark: Generated from `#/components/schemas/reaction-rollup/laugh`.
-            internal var laugh: Swift.Int
+            public var laugh: Swift.Int
             /// - Remark: Generated from `#/components/schemas/reaction-rollup/confused`.
-            internal var confused: Swift.Int
+            public var confused: Swift.Int
             /// - Remark: Generated from `#/components/schemas/reaction-rollup/heart`.
-            internal var heart: Swift.Int
+            public var heart: Swift.Int
             /// - Remark: Generated from `#/components/schemas/reaction-rollup/hooray`.
-            internal var hooray: Swift.Int
+            public var hooray: Swift.Int
             /// - Remark: Generated from `#/components/schemas/reaction-rollup/eyes`.
-            internal var eyes: Swift.Int
+            public var eyes: Swift.Int
             /// - Remark: Generated from `#/components/schemas/reaction-rollup/rocket`.
-            internal var rocket: Swift.Int
+            public var rocket: Swift.Int
             /// Creates a new `reaction_hyphen_rollup`.
             ///
             /// - Parameters:
@@ -370,7 +370,7 @@ internal enum Components {
             ///   - hooray:
             ///   - eyes:
             ///   - rocket:
-            internal init(
+            public init(
                 url: Swift.String,
                 total_count: Swift.Int,
                 _plus_1: Swift.Int,
@@ -393,7 +393,7 @@ internal enum Components {
                 self.eyes = eyes
                 self.rocket = rocket
             }
-            internal enum CodingKeys: String, CodingKey {
+            public enum CodingKeys: String, CodingKey {
                 case url
                 case total_count
                 case _plus_1 = "+1"
@@ -409,44 +409,44 @@ internal enum Components {
         /// Data related to a release.
         ///
         /// - Remark: Generated from `#/components/schemas/release-asset`.
-        internal struct release_hyphen_asset: Codable, Hashable, Sendable {
+        public struct release_hyphen_asset: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/release-asset/url`.
-            internal var url: Swift.String
+            public var url: Swift.String
             /// - Remark: Generated from `#/components/schemas/release-asset/browser_download_url`.
-            internal var browser_download_url: Swift.String
+            public var browser_download_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/release-asset/id`.
-            internal var id: Swift.Int
+            public var id: Swift.Int
             /// - Remark: Generated from `#/components/schemas/release-asset/node_id`.
-            internal var node_id: Swift.String
+            public var node_id: Swift.String
             /// The file name of the asset.
             ///
             /// - Remark: Generated from `#/components/schemas/release-asset/name`.
-            internal var name: Swift.String
+            public var name: Swift.String
             /// - Remark: Generated from `#/components/schemas/release-asset/label`.
-            internal var label: Swift.String?
+            public var label: Swift.String?
             /// State of the release asset.
             ///
             /// - Remark: Generated from `#/components/schemas/release-asset/state`.
-            @frozen internal enum statePayload: String, Codable, Hashable, Sendable {
+            @frozen public enum statePayload: String, Codable, Hashable, Sendable {
                 case uploaded = "uploaded"
                 case open = "open"
             }
             /// State of the release asset.
             ///
             /// - Remark: Generated from `#/components/schemas/release-asset/state`.
-            internal var state: Components.Schemas.release_hyphen_asset.statePayload
+            public var state: Components.Schemas.release_hyphen_asset.statePayload
             /// - Remark: Generated from `#/components/schemas/release-asset/content_type`.
-            internal var content_type: Swift.String
+            public var content_type: Swift.String
             /// - Remark: Generated from `#/components/schemas/release-asset/size`.
-            internal var size: Swift.Int
+            public var size: Swift.Int
             /// - Remark: Generated from `#/components/schemas/release-asset/download_count`.
-            internal var download_count: Swift.Int
+            public var download_count: Swift.Int
             /// - Remark: Generated from `#/components/schemas/release-asset/created_at`.
-            internal var created_at: Foundation.Date
+            public var created_at: Foundation.Date
             /// - Remark: Generated from `#/components/schemas/release-asset/updated_at`.
-            internal var updated_at: Foundation.Date
+            public var updated_at: Foundation.Date
             /// - Remark: Generated from `#/components/schemas/release-asset/uploader`.
-            internal var uploader: Components.Schemas.nullable_hyphen_simple_hyphen_user?
+            public var uploader: Components.Schemas.nullable_hyphen_simple_hyphen_user?
             /// Creates a new `release_hyphen_asset`.
             ///
             /// - Parameters:
@@ -463,7 +463,7 @@ internal enum Components {
             ///   - created_at:
             ///   - updated_at:
             ///   - uploader:
-            internal init(
+            public init(
                 url: Swift.String,
                 browser_download_url: Swift.String,
                 id: Swift.Int,
@@ -492,7 +492,7 @@ internal enum Components {
                 self.updated_at = updated_at
                 self.uploader = uploader
             }
-            internal enum CodingKeys: String, CodingKey {
+            public enum CodingKeys: String, CodingKey {
                 case url
                 case browser_download_url
                 case id
@@ -511,63 +511,63 @@ internal enum Components {
         /// A release.
         ///
         /// - Remark: Generated from `#/components/schemas/release`.
-        internal struct release: Codable, Hashable, Sendable {
+        public struct release: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/release/url`.
-            internal var url: Swift.String
+            public var url: Swift.String
             /// - Remark: Generated from `#/components/schemas/release/html_url`.
-            internal var html_url: Swift.String
+            public var html_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/release/assets_url`.
-            internal var assets_url: Swift.String
+            public var assets_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/release/upload_url`.
-            internal var upload_url: Swift.String
+            public var upload_url: Swift.String
             /// - Remark: Generated from `#/components/schemas/release/tarball_url`.
-            internal var tarball_url: Swift.String?
+            public var tarball_url: Swift.String?
             /// - Remark: Generated from `#/components/schemas/release/zipball_url`.
-            internal var zipball_url: Swift.String?
+            public var zipball_url: Swift.String?
             /// - Remark: Generated from `#/components/schemas/release/id`.
-            internal var id: Swift.Int
+            public var id: Swift.Int
             /// - Remark: Generated from `#/components/schemas/release/node_id`.
-            internal var node_id: Swift.String
+            public var node_id: Swift.String
             /// The name of the tag.
             ///
             /// - Remark: Generated from `#/components/schemas/release/tag_name`.
-            internal var tag_name: Swift.String
+            public var tag_name: Swift.String
             /// Specifies the commitish value that determines where the Git tag is created from.
             ///
             /// - Remark: Generated from `#/components/schemas/release/target_commitish`.
-            internal var target_commitish: Swift.String
+            public var target_commitish: Swift.String
             /// - Remark: Generated from `#/components/schemas/release/name`.
-            internal var name: Swift.String?
+            public var name: Swift.String?
             /// - Remark: Generated from `#/components/schemas/release/body`.
-            internal var body: Swift.String?
+            public var body: Swift.String?
             /// true to create a draft (unpublished) release, false to create a published one.
             ///
             /// - Remark: Generated from `#/components/schemas/release/draft`.
-            internal var draft: Swift.Bool
+            public var draft: Swift.Bool
             /// Whether to identify the release as a prerelease or a full release.
             ///
             /// - Remark: Generated from `#/components/schemas/release/prerelease`.
-            internal var prerelease: Swift.Bool
+            public var prerelease: Swift.Bool
             /// - Remark: Generated from `#/components/schemas/release/created_at`.
-            internal var created_at: Foundation.Date
+            public var created_at: Foundation.Date
             /// - Remark: Generated from `#/components/schemas/release/published_at`.
-            internal var published_at: Foundation.Date?
+            public var published_at: Foundation.Date?
             /// - Remark: Generated from `#/components/schemas/release/author`.
-            internal var author: Components.Schemas.simple_hyphen_user
+            public var author: Components.Schemas.simple_hyphen_user
             /// - Remark: Generated from `#/components/schemas/release/assets`.
-            internal var assets: [Components.Schemas.release_hyphen_asset]
+            public var assets: [Components.Schemas.release_hyphen_asset]
             /// - Remark: Generated from `#/components/schemas/release/body_html`.
-            internal var body_html: Swift.String?
+            public var body_html: Swift.String?
             /// - Remark: Generated from `#/components/schemas/release/body_text`.
-            internal var body_text: Swift.String?
+            public var body_text: Swift.String?
             /// - Remark: Generated from `#/components/schemas/release/mentions_count`.
-            internal var mentions_count: Swift.Int?
+            public var mentions_count: Swift.Int?
             /// The URL of the release discussion.
             ///
             /// - Remark: Generated from `#/components/schemas/release/discussion_url`.
-            internal var discussion_url: Swift.String?
+            public var discussion_url: Swift.String?
             /// - Remark: Generated from `#/components/schemas/release/reactions`.
-            internal var reactions: Components.Schemas.reaction_hyphen_rollup?
+            public var reactions: Components.Schemas.reaction_hyphen_rollup?
             /// Creates a new `release`.
             ///
             /// - Parameters:
@@ -594,7 +594,7 @@ internal enum Components {
             ///   - mentions_count:
             ///   - discussion_url: The URL of the release discussion.
             ///   - reactions:
-            internal init(
+            public init(
                 url: Swift.String,
                 html_url: Swift.String,
                 assets_url: Swift.String,
@@ -643,7 +643,7 @@ internal enum Components {
                 self.discussion_url = discussion_url
                 self.reactions = reactions
             }
-            internal enum CodingKeys: String, CodingKey {
+            public enum CodingKeys: String, CodingKey {
                 case url
                 case html_url
                 case assets_url
@@ -671,26 +671,26 @@ internal enum Components {
         }
     }
     /// Types generated from the `#/components/parameters` section of the OpenAPI document.
-    internal enum Parameters {
+    public enum Parameters {
         /// The account owner of the repository. The name is not case sensitive.
         ///
         /// - Remark: Generated from `#/components/parameters/owner`.
-        internal typealias owner = Swift.String
+        public typealias owner = Swift.String
         /// The name of the repository without the `.git` extension. The name is not case sensitive.
         ///
         /// - Remark: Generated from `#/components/parameters/repo`.
-        internal typealias repo = Swift.String
+        public typealias repo = Swift.String
     }
     /// Types generated from the `#/components/requestBodies` section of the OpenAPI document.
-    internal enum RequestBodies {}
+    public enum RequestBodies {}
     /// Types generated from the `#/components/responses` section of the OpenAPI document.
-    internal enum Responses {}
+    public enum Responses {}
     /// Types generated from the `#/components/headers` section of the OpenAPI document.
-    internal enum Headers {}
+    public enum Headers {}
 }
 
 /// API operations, with input and output types, generated from `#/paths` in the OpenAPI document.
-internal enum Operations {
+public enum Operations {
     /// Get the latest release
     ///
     /// View the latest published full release for the repository.
@@ -699,25 +699,25 @@ internal enum Operations {
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/releases/latest`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/releases/latest/get(repos/get-latest-release)`.
-    internal enum repos_sol_get_hyphen_latest_hyphen_release {
-        internal static let id: Swift.String = "repos/get-latest-release"
-        internal struct Input: Sendable, Hashable {
+    public enum repos_sol_get_hyphen_latest_hyphen_release {
+        public static let id: Swift.String = "repos/get-latest-release"
+        public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/releases/latest/GET/path`.
-            internal struct Path: Sendable, Hashable {
+            public struct Path: Sendable, Hashable {
                 /// The account owner of the repository. The name is not case sensitive.
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/releases/latest/GET/path/owner`.
-                internal var owner: Components.Parameters.owner
+                public var owner: Components.Parameters.owner
                 /// The name of the repository without the `.git` extension. The name is not case sensitive.
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/releases/latest/GET/path/repo`.
-                internal var repo: Components.Parameters.repo
+                public var repo: Components.Parameters.repo
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
                 ///   - owner: The account owner of the repository. The name is not case sensitive.
                 ///   - repo: The name of the repository without the `.git` extension. The name is not case sensitive.
-                internal init(
+                public init(
                     owner: Components.Parameters.owner,
                     repo: Components.Parameters.repo
                 ) {
@@ -725,25 +725,25 @@ internal enum Operations {
                     self.repo = repo
                 }
             }
-            internal var path: Operations.repos_sol_get_hyphen_latest_hyphen_release.Input.Path
+            public var path: Operations.repos_sol_get_hyphen_latest_hyphen_release.Input.Path
             /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/releases/latest/GET/header`.
-            internal struct Headers: Sendable, Hashable {
-                internal var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.repos_sol_get_hyphen_latest_hyphen_release.AcceptableContentType>]
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.repos_sol_get_hyphen_latest_hyphen_release.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                internal init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.repos_sol_get_hyphen_latest_hyphen_release.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.repos_sol_get_hyphen_latest_hyphen_release.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            internal var headers: Operations.repos_sol_get_hyphen_latest_hyphen_release.Input.Headers
+            public var headers: Operations.repos_sol_get_hyphen_latest_hyphen_release.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
             ///   - headers:
-            internal init(
+            public init(
                 path: Operations.repos_sol_get_hyphen_latest_hyphen_release.Input.Path,
                 headers: Operations.repos_sol_get_hyphen_latest_hyphen_release.Input.Headers = .init()
             ) {
@@ -751,17 +751,17 @@ internal enum Operations {
                 self.headers = headers
             }
         }
-        @frozen internal enum Output: Sendable, Hashable {
-            internal struct Ok: Sendable, Hashable {
+        @frozen public enum Output: Sendable, Hashable {
+            public struct Ok: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/releases/latest/GET/responses/200/content`.
-                @frozen internal enum Body: Sendable, Hashable {
+                @frozen public enum Body: Sendable, Hashable {
                     /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/releases/latest/GET/responses/200/content/application\/json`.
                     case json(Components.Schemas.release)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
                     /// - Throws: An error if `self` is not `.json`.
                     /// - SeeAlso: `.json`.
-                    internal var json: Components.Schemas.release {
+                    public var json: Components.Schemas.release {
                         get throws {
                             switch self {
                             case let .json(body):
@@ -771,12 +771,12 @@ internal enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                internal var body: Operations.repos_sol_get_hyphen_latest_hyphen_release.Output.Ok.Body
+                public var body: Operations.repos_sol_get_hyphen_latest_hyphen_release.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                internal init(body: Operations.repos_sol_get_hyphen_latest_hyphen_release.Output.Ok.Body) {
+                public init(body: Operations.repos_sol_get_hyphen_latest_hyphen_release.Output.Ok.Body) {
                     self.body = body
                 }
             }
@@ -790,7 +790,7 @@ internal enum Operations {
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            internal var ok: Operations.repos_sol_get_hyphen_latest_hyphen_release.Output.Ok {
+            public var ok: Operations.repos_sol_get_hyphen_latest_hyphen_release.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -808,10 +808,10 @@ internal enum Operations {
             /// A response with a code that is not documented in the OpenAPI document.
             case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
         }
-        @frozen internal enum AcceptableContentType: AcceptableProtocol {
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
             case json
             case other(Swift.String)
-            internal init?(rawValue: Swift.String) {
+            public init?(rawValue: Swift.String) {
                 switch rawValue.lowercased() {
                 case "application/json":
                     self = .json
@@ -819,7 +819,7 @@ internal enum Operations {
                     self = .other(rawValue)
                 }
             }
-            internal var rawValue: Swift.String {
+            public var rawValue: Swift.String {
                 switch self {
                 case let .other(string):
                     return string
@@ -827,7 +827,7 @@ internal enum Operations {
                     return "application/json"
                 }
             }
-            internal static var allCases: [Self] {
+            public static var allCases: [Self] {
                 [
                     .json
                 ]
