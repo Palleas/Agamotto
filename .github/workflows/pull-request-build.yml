@@ -5,6 +5,20 @@ on:
         branches: [ main ]
 
 jobs:
+    check-for-api-changes:
+        name: Check if GitHub API client or models need to be regenerated
+        runs-on: ubuntu-latest 
+        steps:
+            - uses: swift-actions/setup-swift@v1
+              with:
+                swift-version: 5.9
+            - uses: actions/checkout@v4
+            - run: find Sources
+            - name: Generate openapi
+              run: make generate-github-client
+            - name: Check if it changed
+              run: git diff --quiet HEAD main -- Sources/GitHubClient || (echo "run 'make generate-github-client' and commit the changes " && exit 1)
+
     run-tests:
         name: Swift ${{ matrix.swift-version }} on ${{ matrix.os }}
         runs-on: ${{ matrix.os }}
