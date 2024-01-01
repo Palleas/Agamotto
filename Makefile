@@ -5,5 +5,5 @@ generate-github-client:
 	swift run swift-openapi-generator generate \
 		--mode types --mode client \
 		--output-directory Sources/GitHubClient \
-		--config Sources/GithubClient/openapi-generator-config.yaml \
+		--config Sources/GitHubClient/openapi-generator-config.yaml \
 		Sources/GitHubClient/github-openapi-spec.yaml
