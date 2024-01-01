@@ -9,7 +9,11 @@ jobs:
         name: Check if GitHub API client or models need to be regenerated
         runs-on: ubuntu-latest 
         steps:
+            - uses: swift-actions/setup-swift@v1
+              with:
+                swift-version: 5.9
             - uses: actions/checkout@v4
+            - run: find Sources
             - name: Generate openapi
               run: make generate-github-client
             - name: Check if it changed
