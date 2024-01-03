@@ -17,12 +17,10 @@ jobs:
               with:
                 swift-version: 5.9
             - uses: actions/checkout@v4
-              with: 
-                fetch-depth: 0
-            # - name: Generate openapi
-            #   run: make generate-github-client
+            - name: Generate openapi
+              run: make generate-github-client
             - name: Check if it changed
-              run: git diff --quiet $GITHUB_SHA $GITHUB_BASE_REF -- Sources/GitHubClient || (echo "run 'make generate-github-client' and commit the changes " && exit 1)
+              run: git diff --quiet -- Sources/GitHubClient || (echo "run 'make generate-github-client' and commit the changes " && exit 1)
             - run: exit 1
 
     run-tests:
