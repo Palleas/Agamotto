@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  $RELEASE_VERSION: 0.1.${{ github.run_number }}
+  RELEASE_VERSION: 0.1.${{ github.run_number }}
 
 jobs:
   build:
