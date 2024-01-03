@@ -1,5 +1,9 @@
 name: Pull Request Build
 
+concurrency: 
+    group: ${{ github.head_ref }}
+    cancel-in-progress: true
+
 on:
     pull_request: 
         branches: [ main ]
@@ -13,11 +17,10 @@ jobs:
               with:
                 swift-version: 5.9
             - uses: actions/checkout@v4
-            - run: find Sources
             - name: Generate openapi
               run: make generate-github-client
             - name: Check if it changed
-              run: git diff --quiet HEAD main -- Sources/GitHubClient || (echo "run 'make generate-github-client' and commit the changes " && exit 1)
+              run: git diff --quiet -- Sources/GitHubClient || (echo "run 'make generate-github-client' and commit the changes " && exit 1)
 
     run-tests:
         name: Swift ${{ matrix.swift-version }} on ${{ matrix.os }}
