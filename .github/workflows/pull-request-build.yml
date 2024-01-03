@@ -18,10 +18,8 @@ jobs:
               run: make generate-github-client
             - name: Print status Sources/GitHubClient
               run: git status
-            - name: Print status Sources/GitHubClient
-              run: git diff --quiet HEAD main
-            - name: Print status Sources/GitHubClient
-              run: git diff --quiet $GITHUB_SHA main
+            - name: Print diff Sources/GitHubClient
+              run: git diff $GITHUB_SHA main
             - name: Check if it changed
               run: git diff --quiet HEAD main -- Sources/GitHubClient || (echo "run 'make generate-github-client' and commit the changes " && exit 1)
 
