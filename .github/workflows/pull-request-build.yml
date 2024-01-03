@@ -17,7 +17,8 @@ jobs:
               with:
                 swift-version: 5.9
             - uses: actions/checkout@v4
-            - run: find Sources
+              with: 
+                fetch-depth: 0
             - name: Generate openapi
               run: make generate-github-client
             - name: Check if it changed
