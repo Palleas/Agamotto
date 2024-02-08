@@ -45,7 +45,8 @@ final class ManifestParserTests: XCTestCase {
     func testParsePackage_invalidOutput() throws {
         let parser = ManifestParser(
             runner: StaticCommandRunner.withOutput("[{ name: null, cloneURL: null, version: null }]"),
-            cachesDirectory: temporaryDirectory()
+            cachesDirectory: temporaryDirectory(),
+            isVerbose: true
         )
         
         XCTAssertThrowsError(try parser.parsePackage(path: temporaryDirectoryPath())) { error in
