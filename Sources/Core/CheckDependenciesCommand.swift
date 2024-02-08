@@ -36,7 +36,7 @@ public struct CheckDependenciesCommand: AsyncParsableCommand {
             )
         )
 
-        let parser = ManifestParser(runner: CommandRunner(), cachesDirectory: defaultCacheDirectory())
+        let parser = ManifestParser(runner: CommandRunner(), cachesDirectory: defaultCacheDirectory(), isVerbose: isVerbose)
         let deps = try parser.parsePackage(path: packagePath)
 
         guard !deps.isEmpty else {

@@ -26,7 +26,8 @@ final class ManifestParserTests: XCTestCase {
     { "name": "fluent", "cloneURL": "https://github.com/vapor/fluent.git", "version": null }
 ]
 """),
-            cachesDirectory: temporaryDirectory()
+            cachesDirectory: temporaryDirectory(),
+            isVerbose: true
         )
         
         do {

@@ -29,16 +29,20 @@ public struct ManifestParser {
 
     let runner: CommandRunning
     let cachesDirectory: URL
+    let isVerbose: Bool
 
-    public init(runner: CommandRunning, cachesDirectory: URL) {
+    public init(runner: CommandRunning, cachesDirectory: URL, isVerbose: Bool) {
         self.runner = runner
         self.cachesDirectory = cachesDirectory
+        self.isVerbose = isVerbose
     }
 
     public func parsePackage(path: String) throws -> [Dependency] {
         guard let filterFilePath = Bundle.module.path(forResource: "dependency-filter", ofType: "txt") else {
             throw RuntimeError(message: "Unable to locate a file required to parse the output of the swift package registry command")
         }
+
+        print("Loading manifest from path \(filterFilePath)")
 
         let cacheUrl = try createCacheEntry()
         let spmDumpPackageOutput = cacheUrl.path(for: .swiftPackageDirectoryDump)
