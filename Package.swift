@@ -13,7 +13,7 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-log.git", exact: "1.5.3"),
         .package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.2.0"),
         .package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.1.0"),
-        .package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.0.0")
+        .package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.0.1")
     ],
     targets: [
         .target(name: "GitHubClient", dependencies: [
