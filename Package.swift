@@ -10,7 +10,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", exact: "1.3.0"),
-        .package(url: "https://github.com/apple/swift-log.git", exact: "1.5.3"),
+        .package(url: "https://github.com/apple/swift-log.git", exact: "1.5.4"),
         .package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.2.0"),
         .package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.1.0"),
         .package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.0.1")
