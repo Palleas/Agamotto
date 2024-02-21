@@ -22,7 +22,7 @@ let package = Package(
         ], exclude: ["github-openapi-spec.yaml", "openapi-generator-config.yaml"]),
         
         // Swift Package Manager Stuff
-        .target(name: "SwiftPackageManager", resources: [.copy("dependency-filter.txt")]),
+        .target(name: "SwiftPackageManager"),
         .testTarget(name: "SwiftPackageManagerTests", dependencies: ["SwiftPackageManager"]),
         
         // Core

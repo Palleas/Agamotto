@@ -21,15 +21,14 @@ jobs:
         run: swift test
 
       - name: Build binary
-        id: build-bin
         run: swift build --product agamotto -c release
       
+      - name: Run binary
+        run: $(swift build --show-bin-path -c release)/agamotto --help
+
       - name: Create archive
         id: create-archive
         run: tar -czf agamotto.tar.gz -C $(swift build --show-bin-path -c release) agamotto Agamotto_SwiftPackageManager.bundle
-
-      - name: List files in archive
-        run: tar -tvf agamotto.tar.gz || true
 
       - name: Upload to S3
         run: aws s3 cp --acl public-read agamotto.tar.gz s3://palleas-storage/homebrew/agamotto-$RELEASE_VERSION.tar.gz
@@ -38,7 +37,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-west-1'
 
-      - name: Create release
-        run: gh release create --generate-notes $RELEASE_VERSION agamotto.tar.gz
+      - name: Create pre-release
+        run: gh release create --prerelease --generate-notes $RELEASE_VERSION agamotto.tar.gz
         env:
           GH_TOKEN: ${{ github.token }}

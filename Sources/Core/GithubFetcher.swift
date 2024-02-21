@@ -4,7 +4,13 @@ import GitHubClient
 import OpenAPIURLSession
 
 struct GithubClientFetcher: VersionFetching {
-    private let client = Client(serverURL: .defaultOpenAPIServerURL, transport: URLSessionTransport())
+    private let client = {
+        do {
+            return try Client(serverURL: .init(validatingOpenAPIServerURL: "https://api.github.com"), transport: URLSessionTransport())
+        } catch let error {
+            fatalError("Unable to create Github Client?")
+        }
+    }()
     
     func fetchLatestVersion(for dependency: Dependency) async throws -> String? {
         let repoName = try dependency.cloneURL.repoName

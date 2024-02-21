@@ -1,7 +1,0 @@
-[
-    .dependencies[].sourceControl[0] | {
-        name: .identity,
-        cloneURL: .location.remote[0].urlString,
-        version: .requirement.exact?[0]
-    }
-]
