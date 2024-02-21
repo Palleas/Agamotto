@@ -37,6 +37,7 @@ public struct DependencyChecker {
 
         do {
             let fetcher = try versionFetcherFactory.versionFetching(for: host)
+            
             guard let latestVersion = try await fetcher.fetchLatestVersion(for: dependency) else {
                 return .unknown
             }
@@ -50,7 +51,6 @@ public struct DependencyChecker {
         } catch is VersionFetcherFactory.Error {
             return .error(type: .unsupportedScm)
         } catch {
-            // TODO: Handle error better
             return .error(type: .checkingError) // Generic error
         }
     }
