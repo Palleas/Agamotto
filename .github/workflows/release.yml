@@ -28,7 +28,7 @@ jobs:
 
       - name: Create archive
         id: create-archive
-        run: tar -czf agamotto.tar.gz -C $(swift build --show-bin-path -c release) agamotto Agamotto_SwiftPackageManager.bundle
+        run: tar -czf agamotto.tar.gz -C $(swift build --show-bin-path -c release) agamotto
 
       - name: Upload to S3
         run: aws s3 cp --acl public-read agamotto.tar.gz s3://palleas-storage/homebrew/agamotto-$RELEASE_VERSION.tar.gz
