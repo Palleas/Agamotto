@@ -38,18 +38,16 @@ public struct ManifestParser {
     }
 
     public func parsePackage(path: String) throws -> [Dependency] {
-        guard let filterFilePath = Bundle.module.path(forResource: "dependency-filter", ofType: "txt") else {
-            throw RuntimeError(message: "Unable to locate a file required to parse the output of the swift package registry command")
-        }
-
-        print("Loading manifest from path \(filterFilePath)")
+        let filter = """
+        [ .dependencies[].sourceControl[0] | { name: .identity, cloneURL: .location.remote[0].urlString, version: .requirement.exact?[0] } ]
+        """
 
         let cacheUrl = try createCacheEntry()
         let spmDumpPackageOutput = cacheUrl.path(for: .swiftPackageDirectoryDump)
         let jqFilterOutput = cacheUrl.path(for: .jqFilterResult)
         
         let magicCommand = """
-swift package dump-package --package-path \(path) | tee \(spmDumpPackageOutput) | jq -Mc -f \(filterFilePath) | tee \(jqFilterOutput)
+swift package dump-package --package-path \(path) | tee \(spmDumpPackageOutput) | jq -Mc "\(filter)" | tee \(jqFilterOutput)
 """
 
         let dumpPackageCommandResult = try runner.run(command: magicCommand)
