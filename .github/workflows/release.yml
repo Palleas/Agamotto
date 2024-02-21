@@ -26,7 +26,7 @@ jobs:
       
       - name: Create archive
         id: create-archive
-        run: tar -czf agamotto.tar.gz -C $(swift build --show-bin-path -c release) agamotto Agamotto_SwiftPackageManager.bundle
+        run: tar -czf agamotto.tar.gz -C $(swift build --show-bin-path -c release) agamotto
 
       - name: List files in archive
         run: tar -tvf agamotto.tar.gz || true
