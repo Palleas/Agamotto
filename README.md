@@ -6,8 +6,9 @@ Agamotto is an opinionated tool to check that the dependencies in your `Package.
 * [Keeping on keeping my dependencies up to date](https://romain.codes/2024/02/20/keeping-on-keeping-my-dependencies-up-to-date/)
 
 > [!IMPORTANT]  
-> Agamotto currently has a dependency on `jq` to filter and transform the JSON output of the [swift package manager](https://www.swift.org/documentation/package-manager/) command line tool.
-> It currently shells out to the swift packager manager (via `swift package dump-package`) to get the list of all your dependencies. 
+> Agamotto shells out to the swift packager manager (via `swift package dump-package`) to get the list of all your dependencies because I didn't want to parse it myself.
+> Additionaly, it uses [jq](https://jqlang.github.io/jq/) to filter and transform the JSON output of the [swift package manager](https://www.swift.org/documentation/package-manager/) command line tool.
+
 > I have plans to remove dependencies on both eventually.
 
 ## Installation 
