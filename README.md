@@ -5,17 +5,20 @@ Agamotto is an opinionated tool to check that the dependencies in your `Package.
 * [Keeping my dependencies up to date](https://romain.codes/2022/04/28/keeping-my-dependencies-up-to-date/)
 * [Keeping on keeping my dependencies up to date](https://romain.codes/2024/02/20/keeping-on-keeping-my-dependencies-up-to-date/)
 
+> [!IMPORTANT]  
+> Agamotto currently has a dependency on `jq` to filter and transform the JSON output of the [swift package manager](https://www.swift.org/documentation/package-manager/) command line tool.
+> It currently shells out to the swift packager manager (via `swift package dump-package`) to get the list of all your dependencies. 
+> I have plans to remove dependencies on both eventually.
+
 ## Installation 
 
-The easiest way is probably to use Mint to install the command line tool. I have plans to add support for homebrew.
+### Using Homebrew 
 
 ```shell
-mint install https://github.com/Palleas/Agamotto.git
-agamotto --version # 1.0.0
+brew tap palleas/homebrew-formulas https://github.com/Palleas/homebrew-formulas.git
+brew install agamotto
+agamotto --version
 ```
-
-> [!IMPORTANT]  
-> Agamotto currently has a dependency on `jq` to filter and transform the JSON output of the [swift package manager](https://www.swift.org/documentation/package-manager/) command line tool. I have plans to remove this eventually.
 
 ## Usage
 
