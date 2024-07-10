@@ -12,10 +12,10 @@ jobs:
   build:
     runs-on: macos-13
     steps:
-      - uses: swift-actions/setup-swift@v2
+      - uses: swift-actions/setup-swift@3aed395c5397f62deb91d8fe7af1418a9ae4d16f
         with:
-          swift-version: 5.9
-      - uses: actions/checkout@v4
+          swift-version: 5.10
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Run Tests
         run: swift test
