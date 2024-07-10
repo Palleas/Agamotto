@@ -52,7 +52,7 @@ jobs:
                 os:
                     - ubuntu-latest
                     - macos-13
-                swift-version: ["5.10"]
+                swift-version: ["5.9", "5.10"]
         steps:
             - uses: swift-actions/setup-swift@3aed395c5397f62deb91d8fe7af1418a9ae4d16f
               with:
