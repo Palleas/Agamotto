@@ -13,7 +13,7 @@ jobs:
         name: Check if GitHub API client or models need to be regenerated
         runs-on: ubuntu-latest 
         steps:
-            - uses: swift-actions/setup-swift@v1
+            - uses: swift-actions/setup-swift@v2
               with:
                 swift-version: 5.9
             - uses: actions/checkout@v4
@@ -32,7 +32,7 @@ jobs:
                     - macos-13
                 swift-version: ["5.9"]
         steps:
-            - uses: swift-actions/setup-swift@v1
+            - uses: swift-actions/setup-swift@v2
               with:
                 swift-version: ${{ matrix.swift-version }}
             - uses: actions/checkout@v4
