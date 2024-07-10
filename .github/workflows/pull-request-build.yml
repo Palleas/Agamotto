@@ -7,22 +7,52 @@ concurrency:
 on:
     pull_request: 
         branches: [ main ]
-
+  
 jobs:
+    changes:
+      runs-on: ubuntu-latest
+      permissions:
+        pull-requests: read
+      outputs:
+        github-client: ${{ steps.detected-changes.outputs.github-client }}
+        sources: ${{ steps.detected-changes.outputs.sources }}
+      steps:
+      - uses: dorny/paths-filter@v3
+        id: detected-changes
+        with:
+          filters: |
+            github-client:
+              - 'Sources/GitHubClient/**'
+            sources:
+              - 'Sources/**'
+              - 'Tests/**'
+              - Package.swift
+              - Package.resolved
+
     check-for-api-changes:
+        needs: [changes]
+        if: ${{ needs.changes.outputs.github-client == 'true' }}
         name: Check if GitHub API client or models need to be regenerated
         runs-on: ubuntu-latest 
         steps:
             - uses: swift-actions/setup-swift@v2
               with:
-                swift-version: 5.9
+                swift-version: "5.9"
             - uses: actions/checkout@v4
+            - uses: dorny/paths-filter@v3
+              id: changes
+              with:
+                filters: |
+                  src:
+                    - 'src/**'
             - name: Generate openapi
               run: make generate-github-client
             - name: Check if it changed
               run: git diff --quiet -- Sources/GitHubClient || (echo "run 'make generate-github-client' and commit the changes " && exit 1)
 
     run-tests:
+        needs: [changes]
+        if: ${{ needs.changes.outputs.sources == 'true' }}
         name: Swift ${{ matrix.swift-version }} on ${{ matrix.os }}
         runs-on: ${{ matrix.os }}
         strategy:
@@ -38,4 +68,3 @@ jobs:
             - uses: actions/checkout@v4
             - name: Run tests
               run: swift test
-            
