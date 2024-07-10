@@ -44,6 +44,7 @@ Using the `--verbose` option will print the list of all your dependencies, inclu
 
 * This project started as a fun project, so shelling out to `swift package...` and using `jq` are not the most stable approaches, especially with new version of the Swift command line tools that might change the output of the `dump-package` subcommand. Please [file an issue](https://github.com/Palleas/Agamotto/issues/new) if you notice something weird.
 * Agamotto only handle dependencies with **exact** versions, using ranges or branches will be ignored.
+* Only urls to repositories hosted on GitHub are supported right now.
 
 ## Acknowledgement
 
