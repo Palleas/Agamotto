@@ -30,13 +30,6 @@ jobs:
         id: create-archive
         run: tar -czf agamotto.tar.gz -C $(swift build --show-bin-path -c release) agamotto
 
-      - name: Upload to S3
-        run: aws s3 cp --acl public-read agamotto.tar.gz s3://palleas-storage/homebrew/agamotto-$RELEASE_VERSION.tar.gz
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: 'us-west-1'
-
       - name: Create pre-release
         run: gh release create --prerelease --generate-notes $RELEASE_VERSION agamotto.tar.gz
         env:
