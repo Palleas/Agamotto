@@ -25,7 +25,6 @@ agamotto check /path/to/your/project
 
 Example output from this repo:
 ```
-agamotto check . --verbose
 [swift-log...............] Should be updated from 1.5.4 to 1.6.1
 ```
 
