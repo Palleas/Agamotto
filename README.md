@@ -14,8 +14,8 @@ mint install https://github.com/Palleas/Agamotto.git
 agamotto --version # 1.0.0
 ```
 
-[!IMPORTANT]  
-Agamotto currently has a dependency on `jq` to filter and transform the JSON output of the [swift package manager](https://www.swift.org/documentation/package-manager/) command line tool.
+> [!IMPORTANT]  
+> Agamotto currently has a dependency on `jq` to filter and transform the JSON output of the [swift package manager](https://www.swift.org/documentation/package-manager/) command line tool. I have plans to remove this eventually.
 
 ## Usage
 
