@@ -28,6 +28,7 @@ jobs:
               - 'Tests/**'
               - Package.swift
               - Package.resolved
+              - .github/workflows/**/*.yml
 
     check-for-api-changes:
         needs: [changes]
@@ -36,7 +37,7 @@ jobs:
         steps:
             - uses: swift-actions/setup-swift@v2
               with:
-                swift-version: "5.9"
+                swift-version: "5.10"
             - uses: actions/checkout@v4
             - name: Generate openapi and check if generated code has changed
               if: ${{ needs.changes.outputs.github-client == 'true' }}
@@ -51,7 +52,7 @@ jobs:
                 os:
                     - ubuntu-latest
                     - macos-13
-                swift-version: ["5.9"]
+                swift-version: ["5.10"]
         steps:
             - uses: swift-actions/setup-swift@v2
               with:
