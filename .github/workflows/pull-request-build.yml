@@ -17,7 +17,7 @@ jobs:
         github-client: ${{ steps.detected-changes.outputs.github-client }}
         sources: ${{ steps.detected-changes.outputs.sources }}
       steps:
-      - uses: dorny/paths-filter@v3
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36
         id: detected-changes
         with:
           filters: |
@@ -35,10 +35,10 @@ jobs:
         name: Check if GitHub API client or models need to be regenerated
         runs-on: ubuntu-latest 
         steps:
-            - uses: swift-actions/setup-swift@v2
+            - uses: swift-actions/setup-swift@3aed395c5397f62deb91d8fe7af1418a9ae4d16f
               with:
                 swift-version: "5.10"
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
             - name: Generate openapi and check if generated code has changed
               if: ${{ needs.changes.outputs.github-client == 'true' }}
               run: make generate-github-client && (git diff --quiet -- Sources/GitHubClient || (echo "run 'make generate-github-client' and commit the changes " && exit 1))
@@ -54,10 +54,10 @@ jobs:
                     - macos-13
                 swift-version: ["5.10"]
         steps:
-            - uses: swift-actions/setup-swift@v2
+            - uses: swift-actions/setup-swift@3aed395c5397f62deb91d8fe7af1418a9ae4d16f
               with:
                 swift-version: ${{ matrix.swift-version }}
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
             - name: Run tests
               if: ${{ needs.changes.outputs.sources == 'true' }}
               run: swift test
