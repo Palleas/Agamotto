@@ -5,17 +5,19 @@ Agamotto is an opinionated tool to check that the dependencies in your `Package.
 * [Keeping my dependencies up to date](https://romain.codes/2022/04/28/keeping-my-dependencies-up-to-date/)
 * [Keeping on keeping my dependencies up to date](https://romain.codes/2024/02/20/keeping-on-keeping-my-dependencies-up-to-date/)
 
+> [!IMPORTANT]  
+> Agamotto shells out to the swift packager manager (via `swift package dump-package`) to get the list of all your dependencies because I didn't want to parse it myself.
+> Additionaly, it uses [jq](https://jqlang.github.io/jq/) to filter and transform the JSON output of the [swift package manager](https://www.swift.org/documentation/package-manager/) command line tool. I have plans to remove dependencies on both eventually.
+
 ## Installation 
 
-The easiest way is probably to use Mint to install the command line tool. I have plans to add support for homebrew.
+### Using Homebrew 
 
 ```shell
-mint install https://github.com/Palleas/Agamotto.git
-agamotto --version # 1.0.0
+brew tap palleas/homebrew-formulas https://github.com/Palleas/homebrew-formulas.git
+brew install agamotto
+agamotto --version
 ```
-
-> [!IMPORTANT]  
-> Agamotto currently has a dependency on `jq` to filter and transform the JSON output of the [swift package manager](https://www.swift.org/documentation/package-manager/) command line tool. I have plans to remove this eventually.
 
 ## Usage
 
@@ -37,6 +39,12 @@ Using the `--verbose` option will print the list of all your dependencies, inclu
 [swift-openapi-generator.] Up to date.
 [swift-argument-parser...] Up to date.
 ```
+
+## Known Issues
+
+* This project started as a fun project, so shelling out to `swift package...` and using `jq` are not the most stable approaches, especially with new version of the Swift command line tools that might change the output of the `dump-package` subcommand. Please [file an issue](https://github.com/Palleas/Agamotto/issues/new) if you notice something weird.
+* Agamotto only handle dependencies with **exact** versions, using ranges or branches will be ignored.
+* Only urls to repositories hosted on GitHub are supported right now.
 
 ## Acknowledgement
 
