@@ -27,13 +27,19 @@ Example output from this repo:
 ```
 agamotto check . --verbose
 [swift-log...............] Should be updated from 1.5.4 to 1.6.1
+```
+
+Using the `--verbose` option will print the list of all your dependencies, including the ones that are already up to date:
+
+```
+[swift-log...............] Should be updated from 1.5.4 to 1.6.1
 [swift-openapi-urlsession] Up to date.
 [swift-openapi-runtime...] Up to date.
 [swift-openapi-generator.] Up to date.
 [swift-argument-parser...] Up to date.
 ```
 
-## Dependencies
+## Acknowledgement
 
 Agamotto relies on a bunch of open-source libraries to work: 
 * [Swift Argument Parser](https://github.com/apple/swift-argument-parser)
