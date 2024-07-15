@@ -1,26 +1,5 @@
 import Foundation
 
-struct CacheKind {
-    let filename: String
-}
-
-extension CacheKind {
-    static let swiftPackageDirectoryDump = CacheKind(filename: "dump.log")
-    
-    static let jqFilterResult = CacheKind(filename: "jq-filter.log")
-}
-
-private extension URL {
-    func path(for kind: CacheKind) -> String {
-        #if os(Linux)
-        appendingPathComponent(kind.filename).path
-        #else
-        appending(path: kind.filename).path()
-        #endif
-    }
-}
-
-
 public struct RuntimeError: LocalizedError {
     public let message: String
     
