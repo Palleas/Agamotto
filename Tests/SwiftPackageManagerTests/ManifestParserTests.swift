@@ -43,26 +43,26 @@ final class ManifestParserTests: XCTestCase {
         let dependencies = try parser.parsePackage(path: temporaryDirectoryPath())
         XCTAssertEqual(dependencies, [
             Dependency(
-              name: "swift-argument-parser",
-              cloneURL: CloneUrl(url: URL(string: "https://github.com/apple/swift-argument-parser.git")!),
-              version: "1.4.0"
+                name: "swift-argument-parser",
+                cloneURL: CloneUrl(url: URL(string: "https://github.com/apple/swift-argument-parser.git")!),
+                version: "1.4.0"
             ),
             Dependency(
-              name: "swift-log",
-              cloneURL: CloneUrl(url: URL(string: "https://github.com/apple/swift-log.git")!),
-              version: nil
+                name: "swift-log",
+                cloneURL: CloneUrl(url: URL(string: "https://github.com/apple/swift-log.git")!),
+                version: nil
             ),
             Dependency(
-              name: "swift-openapi-runtime",
-              cloneURL: CloneUrl(url: URL(string: "https://github.com/apple/swift-openapi-runtime")!),
-              version: nil
+                name: "swift-openapi-runtime",
+                cloneURL: CloneUrl(url: URL(string: "https://github.com/apple/swift-openapi-runtime")!),
+                version: nil
             ),
             Dependency(
-              name: "swift-atomics",
-              cloneURL: CloneUrl(url: URL(string: "https://github.com/apple/swift-atomics.git")!),
-              version: nil
-          ),
-          ])
+                name: "swift-atomics",
+                cloneURL: CloneUrl(url: URL(string: "https://github.com/apple/swift-atomics.git")!),
+                version: nil
+            ),
+        ])
     }
 }
 
