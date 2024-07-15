@@ -38,17 +38,10 @@ public struct ManifestParser {
     }
 
     public func parsePackage(path: String) throws -> [Dependency] {
-        let filter = """
-        [ .dependencies[].sourceControl[0] | { name: .identity, cloneURL: .location.remote[0].urlString, version: .requirement.exact?[0] } ]
-        """
-
         let cacheUrl = try createCacheEntry()
         let spmDumpPackageOutput = cacheUrl.path(for: .swiftPackageDirectoryDump)
-        let jqFilterOutput = cacheUrl.path(for: .jqFilterResult)
         
-        let magicCommand = """
-swift package dump-package --package-path \(path) | tee \(spmDumpPackageOutput) | jq -Mc "\(filter)" | tee \(jqFilterOutput)
-"""
+        let magicCommand = "swift package dump-package --package-path \(path)"
 
         let dumpPackageCommandResult = try runner.run(command: magicCommand)
 
@@ -64,7 +57,18 @@ swift package dump-package --package-path \(path) | tee \(spmDumpPackageOutput) 
         }
 
         do {
-            return try JSONDecoder().decode([Dependency].self, from: data)
+            let response = try JSONDecoder().decode(PackageDumpResponse.self, from: data)
+            return try response.dependencies.map { dependency in
+                guard let sourceControl = dependency.sourceControl.first else { throw RuntimeError(message: "Missing source control entry") }
+                
+                guard let urlString = sourceControl.location.remote.first?["urlString"].flatMap(URL.init(string:)) else { throw RuntimeError(message: "Missing or invalid remote url") }
+                
+                return Dependency(
+                    name: sourceControl.identity,
+                    cloneURL: CloneUrl(url: urlString),
+                    version: sourceControl.requirement.exact?.first
+                )
+            }
         } catch is DecodingError {
             let stderr = try dumpPackageCommandResult.standardError().map({ String(decoding: $0, as: UTF8.self) }) ?? "No output"
             throw RuntimeError(message: """
@@ -74,7 +78,6 @@ Parsing manifest failed with the following error message:
 
 This an happen when the response format of the `swift package dump-package` command has changed.
 Command output is available at \(spmDumpPackageOutput)
-JQ result filter is available at \(jqFilterOutput)
 """)
         }
     }

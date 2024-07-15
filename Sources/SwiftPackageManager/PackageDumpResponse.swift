@@ -5,9 +5,14 @@ public struct PackageDumpResponse: Decodable {
         let remote: [[String: String]]
     }
     
+    public struct Requirement: Decodable {
+        let exact: [String]?
+    }
+    
     public struct SourceControl: Decodable {
         let identity: String
         let location: SourceControlLocation
+        let requirement: Requirement
     }
     
     public struct Dependency: Decodable {
