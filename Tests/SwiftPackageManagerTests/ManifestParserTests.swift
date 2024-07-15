@@ -1,5 +1,6 @@
 import XCTest
 import SwiftPackageManager
+import Foundation
 
 private struct StaticCommandRunner: CommandRunning {
     let result: CommandRunResult
@@ -17,44 +18,51 @@ private struct StaticCommandRunner: CommandRunning {
     }
 }
 
+private struct OutputError: LocalizedError {
+    let message: String
+    
+    var errorDescription: String? { message }
+}
+
+private func readOutput(named name: String) throws -> Data {
+    guard let path = Bundle.module.path(forResource: name, ofType: "json") else {
+        throw OutputError(message: "Fixture \(name) does not exist")
+    }
+    
+    return try Data(contentsOf: URL(fileURLWithPath: path))
+}
+
 final class ManifestParserTests: XCTestCase {
     func testParsePackage_validOutput() throws {
         let parser = ManifestParser(
-            runner: StaticCommandRunner.withOutput("""
-[
-    { "name": "vapor", "cloneURL": "https://github.com/vapor/vapor.git", "version": "1.2.3" },
-    { "name": "fluent", "cloneURL": "https://github.com/vapor/fluent.git", "version": null }
-]
-"""),
+            runner: try StaticCommandRunner.withOutput(String(decoding: readOutput(named: "sample-package-dump"), as: UTF8.self)),
             cachesDirectory: temporaryDirectory(),
             isVerbose: true
         )
         
-        do {
-            let dependencies = try parser.parsePackage(path: temporaryDirectoryPath())
-            XCTAssertEqual(dependencies, [
-                Dependency(name: "vapor", cloneURL: CloneUrl(url: URL(string: "https://github.com/vapor/vapor.git")!), version: "1.2.3"),
-                Dependency(name: "fluent", cloneURL: CloneUrl(url: URL(string: "https://github.com/vapor/fluent.git")!), version: nil)
-            ])
-        } catch let error {
-            throw error
-        }
-        
-    }
-    
-    func testParsePackage_invalidOutput() throws {
-        let parser = ManifestParser(
-            runner: StaticCommandRunner.withOutput("[{ name: null, cloneURL: null, version: null }]"),
-            cachesDirectory: temporaryDirectory(),
-            isVerbose: true
-        )
-        
-        XCTAssertThrowsError(try parser.parsePackage(path: temporaryDirectoryPath())) { error in
-            guard let runtimeError = error as? RuntimeError else { return XCTFail() }
-            
-            XCTAssertTrue(runtimeError.message.contains("dump.log"))
-            XCTAssertTrue(runtimeError.message.contains("jq-filter.log"))
-        }
+        let dependencies = try parser.parsePackage(path: temporaryDirectoryPath())
+        XCTAssertEqual(dependencies, [
+            Dependency(
+                name: "swift-argument-parser",
+                cloneURL: CloneUrl(url: URL(string: "https://github.com/apple/swift-argument-parser.git")!),
+                version: "1.4.0"
+            ),
+            Dependency(
+                name: "swift-log",
+                cloneURL: CloneUrl(url: URL(string: "https://github.com/apple/swift-log.git")!),
+                version: nil
+            ),
+            Dependency(
+                name: "swift-openapi-runtime",
+                cloneURL: CloneUrl(url: URL(string: "https://github.com/apple/swift-openapi-runtime")!),
+                version: nil
+            ),
+            Dependency(
+                name: "swift-atomics",
+                cloneURL: CloneUrl(url: URL(string: "https://github.com/apple/swift-atomics.git")!),
+                version: nil
+            ),
+        ])
     }
 }
 

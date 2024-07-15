@@ -23,7 +23,7 @@ let package = Package(
         
         // Swift Package Manager Stuff
         .target(name: "SwiftPackageManager"),
-        .testTarget(name: "SwiftPackageManagerTests", dependencies: ["SwiftPackageManager"]),
+        .testTarget(name: "SwiftPackageManagerTests", dependencies: ["SwiftPackageManager"], resources: [.copy("sample-package-dump.json")]),
         
         // Core
         .target(
@@ -39,6 +39,6 @@ let package = Package(
         .executableTarget(name: "Run", dependencies: [
             .byName(name: "Core"),
             .product(name: "ArgumentParser", package: "swift-argument-parser"),
-        ])
+        ]),
     ]
 )
