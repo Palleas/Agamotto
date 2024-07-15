@@ -1,5 +1,6 @@
 import XCTest
 import SwiftPackageManager
+import Foundation
 
 private struct StaticCommandRunner: CommandRunning {
     let result: CommandRunResult
@@ -18,6 +19,16 @@ private struct StaticCommandRunner: CommandRunning {
 }
 
 final class ManifestParserTests: XCTestCase {
+    func testParsingJson() throws {
+        guard let path = Bundle.module.path(forResource: "agamotto-package-dump", ofType: "json") else {
+            return XCTFail("Unable to retrieve path to fixture")
+        }
+        
+        let content = try Data(contentsOf: URL(fileURLWithPath: path))
+        let response = try JSONDecoder().decode(PackageDumpResponse.self, from: content)
+        
+    }
+    
     func testParsePackage_validOutput() throws {
         let parser = ManifestParser(
             runner: StaticCommandRunner.withOutput("""

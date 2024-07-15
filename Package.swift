@@ -23,7 +23,7 @@ let package = Package(
         
         // Swift Package Manager Stuff
         .target(name: "SwiftPackageManager"),
-        .testTarget(name: "SwiftPackageManagerTests", dependencies: ["SwiftPackageManager"]),
+        .testTarget(name: "SwiftPackageManagerTests", dependencies: ["SwiftPackageManager"], resources: [.copy("agamotto-package-dump.json")]),
         
         // Core
         .target(
